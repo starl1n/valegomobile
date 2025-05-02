@@ -12,6 +12,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { Slot } from "expo-router";
 
 import "../global.css";
+import { SessionProvider } from "@/contexts/AuthContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -57,12 +58,17 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  console.log("colorScheme", colorScheme);
 
   return (
-    <GluestackUIProvider mode={colorScheme === "dark" ? "dark" : "light"}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Slot />
-      </ThemeProvider>
-    </GluestackUIProvider>
+    <SessionProvider>
+      <GluestackUIProvider mode={colorScheme === "dark" ? "dark" : "light"}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <Slot />
+        </ThemeProvider>
+      </GluestackUIProvider>
+    </SessionProvider>
   );
 }
